@@ -1,0 +1,5 @@
+.idea/
+dist/
+files/*.trained
+files/script.txt
+node_modules

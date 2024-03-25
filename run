@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+const {execFileSync} = require("child_process");
+
+const steps = [
+  ()=> ["dist/1-markov-simple.mjs", "files/simple.txt"],
+  ()=> ["dist/1-markov-simple.mjs", "files/seuss.txt"],
+  ()=> ["dist/2-markov-model.mjs", "files/simple.txt"],
+  ()=> ["dist/2-markov-model.mjs", "files/seuss.txt"],
+  ()=> ["dist/3-train-simple.mjs", "files/seuss.txt", "files/seuss.trained"],
+  ()=> ["dist/4-run-simple.mjs", "files/seuss.trained"],
+  ()=> ["dist/5-train-movie.mjs"],
+  ()=> ["dist/6-run-movie.mjs"],
+  ()=> ["dist/1-markov-simple.mjs", "files/flow.txt"],
+]
+
+const step = steps[Number(process.argv[2]) - 1];
+if (!step){
+  console.error(`Usage: [step]\n where 1 <= step <= ${steps.length}`);
+  process.exitCode = 1;
+} else {
+  console.log(`+ node ${step().join(" ")}`);
+  execFileSync("node", step(), {stdio: 'inherit'});
+}  
+
+
